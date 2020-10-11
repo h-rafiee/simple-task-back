@@ -44,6 +44,7 @@ class AuthController extends Controller
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
             $user->save();
+            mkdir("/opt/myproject/{$user->email}", 0777, true);
             $token = auth()->login($user);
             $cookie = $this->getCookieDetails($token);
             $response = rest(true, $this->payloadToken($token, $user));

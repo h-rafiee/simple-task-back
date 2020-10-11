@@ -32,7 +32,8 @@ class RegisterRequest extends BaseFormRequest
 
     public function filters() {
         return [
-            'name' => 'escape'
+            'name' => 'trim|escape',
+            'email' => 'trim|lowercase'
         ];
     }
 }

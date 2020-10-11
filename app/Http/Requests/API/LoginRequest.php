@@ -30,6 +30,8 @@ class LoginRequest extends BaseFormRequest
     }
 
     public function filters() {
-        return [];
+        return [
+            'email' => 'trim|lowercase'
+        ];
     }
 }

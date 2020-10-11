@@ -18,9 +18,16 @@ Route::prefix('auth')->group(function () {
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
     Route::post('refresh-token', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
+    Route::get('me', 'AuthController@me');
 });
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth.api')->group(function () {
+
+    Route::get('process', 'ProcessController@index');
+
+    Route::get('directories', 'DirectoryController@index');
+    Route::post('directories', 'DirectoryController@make');
+    
+    Route::get('files', 'FileController@index');
+    Route::post('files', 'FileController@make');
 });

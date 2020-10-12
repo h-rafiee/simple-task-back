@@ -32,13 +32,6 @@ class AuthController extends Controller
     public function register(RegisterRequest $request)
     {
         try {
-            $invitedBy = null;
-            if ($request->hasCookie('_referral')) {
-                $refCode = explode("|", Crypt::decrypt(Cookie::get('_referral'), false))[1];
-                $invitedBy = User::where('referral_code', $refCode)
-                        ->where('referral_enable', true)
-                        ->first()->id ?? null;
-            }
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
@@ -68,7 +61,7 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            $user = User::where('email', $request->phone)
+            $user = User::where('email', $request->email)
                 ->first();
             if (!$user) {
                 throw new \Exception("Unauthorized", 401);

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('auth')->group(function () {
     Route::post('register', 'AuthController@register');
     Route::post('login', 'AuthController@login');
+    Route::post('logout', 'AuthController@logout');
     Route::post('refresh-token', 'AuthController@refresh');
     Route::get('me', 'AuthController@me');
 });
@@ -27,7 +28,7 @@ Route::middleware('auth.api')->group(function () {
 
     Route::get('directories', 'DirectoryController@index');
     Route::post('directories', 'DirectoryController@make');
-    
+
     Route::get('files', 'FileController@index');
     Route::post('files', 'FileController@make');
 });

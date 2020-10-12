@@ -7,10 +7,14 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    public function index(Request $request) 
+    public function index(Request $request)
     {
         $user = $request->user();
-        return rest(true, glob("/opt/myprojcet/{$user->email}/*.txt"));
+        $files = glob("/opt/myproject/{$user->email}/*.txt");
+        foreach ($files as &$item) {
+            $item = last(explode("/", $item));
+        }
+        return rest(true, $files);
     }
 
     public function make(Request $request)
@@ -22,7 +26,7 @@ class FileController extends Controller
 
         $filePath = "/opt/myproject/{$user->email}/{$request->name}.txt";
 
-        if(file_exists($filePath)) {
+        if (file_exists($filePath)) {
             return rest(true, ["message" => "file exist!"]);
         }
 

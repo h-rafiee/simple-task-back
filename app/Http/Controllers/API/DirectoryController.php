@@ -10,7 +10,11 @@ class DirectoryController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        return rest(true, glob("/opt/myprojcet/{$user->email}/*", GLOB_ONLYDIR));
+        $directories = glob("/opt/myproject/{$user->email}/*", GLOB_ONLYDIR);
+        foreach ($directories as &$item) {
+            $item = last(explode("/", $item));
+        }
+        return rest(true, $directories);
     }
 
     public function make(Request $request)
@@ -23,13 +27,12 @@ class DirectoryController extends Controller
 
         $path = "/opt/myproject/{$user->email}/{$request->name}";
 
-        if(is_dir($path)) {
+        if (is_dir($path)) {
             return rest(true, ["message" => "path exist!"]);
         }
 
         mkdir($path, 0777, true);
 
         return rest(true, ["message" => "path created!"]);
-
     }
 }

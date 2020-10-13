@@ -21,7 +21,7 @@ class FileController extends Controller
     {
         $user = $request->user();
         $request->validate([
-            'name' => 'required|string'
+            'name' => 'required|alpha_dash'
         ]);
 
         $filePath = "/opt/myproject/{$user->email}/{$request->name}.txt";

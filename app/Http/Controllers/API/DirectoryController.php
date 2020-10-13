@@ -22,7 +22,7 @@ class DirectoryController extends Controller
 
         $user = $request->user();
         $request->validate([
-            'name' => 'required|string'
+            'name' => 'required|alpha_dash'
         ]);
 
         $path = "/opt/myproject/{$user->email}/{$request->name}";
